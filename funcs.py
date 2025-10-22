@@ -35,6 +35,10 @@ def take_screenshot(name):
 
 def fill_form(data, start_coords):
     take_screenshot("before")
+    print("\nIniciando llenado de formulario en", end=' ')
+    for i in range(3):
+        print(f"{3 - i}...", end=' ')
+        time.sleep(1)
     pyautogui.click(start_coords[0], start_coords[1])
     time.sleep(1)
     pyautogui.typewrite("notepad")
@@ -43,10 +47,10 @@ def fill_form(data, start_coords):
     pyautogui.typewrite(data["nombre"])
     pyautogui.press("enter")
     pyautogui.typewrite(data["correo"])
+    take_screenshot("during")
     pyautogui.press("enter")
     pyautogui.typewrite(data["equipo"])
     pyautogui.press("enter")
-    take_screenshot("during")
     time.sleep(1)
     path = take_screenshot("after")
     logging.info(f"Capturas guardadas con éxito en {path}")
