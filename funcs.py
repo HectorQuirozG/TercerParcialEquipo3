@@ -33,24 +33,40 @@ def take_screenshot(name):
     img.save(path)
     return path
 
-def fill_form(data, start_coords):
+def fill_form(data, coords):
     take_screenshot("before")
     print("\nIniciando llenado de formulario en", end=' ')
     for i in range(3):
         print(f"{3 - i}...", end=' ')
         time.sleep(1)
-    pyautogui.click(start_coords[0], start_coords[1])
+    url = "https://shorturl.at/xAg0N"
+    run_powershell(f"[System.Diagnostics.Process]::Start('{url}')")
     time.sleep(1)
-    pyautogui.typewrite("notepad")
-    time.sleep(1)
+    pyautogui.click(960, 540)
+    for i in range(6):
+        pyautogui.press("down")
+        time.sleep(0.1)
+    pyautogui.click(coords[0])
+    pyautogui.click(coords[0])
+    pyautogui.typewrite(data["fecha"])
     pyautogui.press("enter")
-    pyautogui.typewrite(data["nombre"])
-    pyautogui.press("enter")
-    pyautogui.typewrite(data["correo"])
+    time.sleep(1.5)
+    pyautogui.click(coords[1])
+    pyautogui.click(coords[1])
+    for i in data["nombre"]:
+        pyautogui.typewrite(i)
+        pyautogui.press("enter")
     take_screenshot("during")
-    pyautogui.press("enter")
-    pyautogui.typewrite(data["equipo"])
-    pyautogui.press("enter")
-    time.sleep(1)
+    time.sleep(0.5)
+    pyautogui.click(coords[2])
+    suma = sum(data["mats"])
+    pyautogui.typewrite(str(suma))
+    time.sleep(0.5)
+    pyautogui.click(coords[3])
+    pyautogui.click(960, 540)
+    for i in range(6):
+        pyautogui.press("down")
+        time.sleep(0.1)
+    pyautogui.click(coords[4])
     path = take_screenshot("after")
     logging.info(f"Capturas guardadas con éxito en {path}")
